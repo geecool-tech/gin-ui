@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func MainHandlerFunc(c *gin.Context) {
+func MainHandlerFunc(c *gin.Context, instance *app.GinUI) {
 	// 提前读取请求体
 	body, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
@@ -41,6 +41,7 @@ func MainHandlerFunc(c *gin.Context) {
 			InstanceName: tools.GetInstanceName(c),
 			Method:       c.Request.Method,
 			Path:         c.Request.URL.Path,
+			QueryParam:   c.Request.URL.RawQuery,
 			Status:       status,
 			Duration:     duration.Milliseconds(),
 			IP:           c.ClientIP(),

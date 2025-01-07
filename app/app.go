@@ -15,6 +15,7 @@ type ApiRecord struct {
 	InstanceName string         `gorm:"size:255"`
 	Method       string         `gorm:"size:10"`  // 请求方法 (GET, POST, etc.)
 	Path         string         `gorm:"size:255"` // 请求路径
+	QueryParam   string         `gorm:"size:255"` // query 串
 	Status       int            `gorm:"index"`    // HTTP 状态码
 	Duration     int64          `gorm:"index"`    // 请求响应时间 (单位：毫秒)
 	IP           string         `gorm:"size:50"`  // 请求来源 IP
@@ -38,4 +39,31 @@ func GetDb() *gorm.DB {
 	}
 	return _db
 
+}
+
+type GinUI struct {
+	Name            string
+	AutoOpenConsole bool
+	DbPath          string
+	Port            int
+}
+type Option func(u *GinUI)
+
+// WithAutoOpenConsole 设置是否自动打开控制台
+func WithAutoOpenConsole(autoOpen bool) Option {
+	return func(g *GinUI) {
+		g.AutoOpenConsole = autoOpen
+	}
+}
+
+// WithDbPath 设置数据库路径
+func WithDbPath(path string) Option {
+	return func(g *GinUI) {
+		g.DbPath = path
+	}
+}
+func WithPort(port int) Option {
+	return func(g *GinUI) {
+		g.Port = port
+	}
 }

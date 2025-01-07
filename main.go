@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/geecool-tech/gin-ui/app"
 	"github.com/geecool-tech/gin-ui/observer"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -10,7 +11,12 @@ import (
 func main() {
 	engine := gin.Default()
 
-	engine.Use(observer.New("测试实例", false))
+	engine.Use(observer.New(
+		"测试实例",
+		app.WithAutoOpenConsole(true),
+		app.WithPort(9981),
+	),
+	)
 	engine.GET("/test", func(context *gin.Context) {
 		time.Sleep(2 * time.Second)
 	})
